@@ -8,7 +8,6 @@
 **Data:** `cn2x_scan.jsonl`, `cn2x_capped_scan.jsonl`, `cn2x_python_reference.json`, `cn2x/runs/*/`, `cn2x/runs/howe_1e25/` (the §9 census)
 
 ---
-[TOC]
 
 ## 0. Verdict
 
