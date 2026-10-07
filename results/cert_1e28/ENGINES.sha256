@@ -1,0 +1,7 @@
+# sha256 of the engines used for the 1e28 certificate (binaries as built in the run directory on 5 Oct 2026; sources as in cn2x/ of this repository)
+1a8157d091f1a5d764c15e954a87ba08b2a6f8e337306069510baa654474d074  capped/cn2xh
+d7beea88a8057def01042b50ff02ac3314b262d7e3f399a4544773a945df9d1e  capped/cn2xh.c
+bc3f49c6c96aab24d0791bb3a6ad4f7e213296be681225b372feb4a98c02e0dc  pair/cn2pair
+ee337b6e474cbf33da4f7166238e00d151049b981d052a3b6656504f58f113cd  pair/cn2pair.c
+aa96fb5916d4fa15ba7f7757f96662fa9c3c9c7d1cedeba0c87b127ac71d9836  tail/cn2tail
+c5379c211c663fb795095cd232b24cd8ed0f727f382108f501b219d911e7b83b  tail/cn2tail.c

@@ -1,0 +1,19 @@
+{
+ "mode": "howe",
+ "X": "10000000000000000000000000000",
+ "R0": 15000,
+ "T": 2154434690,
+ "capped_only": true,
+ "lastcalc": true,
+ "mshard": 100000,
+ "batch": 4096,
+ "ratio": 1.0,
+ "sieve": 1,
+ "donate_q": 10000000000,
+ "W": 268435456,
+ "nsmall": 95,
+ "capped_sha256": "1a8157d091f1a5d764c15e954a87ba08b2a6f8e337306069510baa654474d074",
+ "tail_sha256": "aa96fb5916d4fa15ba7f7757f96662fa9c3c9c7d1cedeba0c87b127ac71d9836",
+ "tail_pairs_approx": 4.622019916739683e+18,
+ "created": "2026-10-05T21:09:53"
+}

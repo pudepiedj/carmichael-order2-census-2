@@ -1,0 +1,9 @@
+# build products and raw run outputs (the certificate records in results/ are kept)
+*.o
+__pycache__/
+cn2x/cn2xh
+cn2x/cn2pair
+cn2x/cn2tail
+runs/
+*.log.tmp
+.DS_Store
