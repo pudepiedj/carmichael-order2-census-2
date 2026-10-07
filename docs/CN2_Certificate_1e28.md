@@ -13,7 +13,6 @@ date: 2026-10-07
 **Run directory:** `results/cert_1e28/`
 
 ---
-[TOC]
 
 ## 1. The result
 

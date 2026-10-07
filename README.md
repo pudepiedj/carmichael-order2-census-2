@@ -1,13 +1,15 @@
-# Carmichael numbers of order 2: a certified census below 10^28
+# Carmichael numbers of order 2: a certified census below 10²⁸
 
 This repository contains the programs, the run records, the proofs and the validation suite behind this result:
 
-> **There are exactly 45 Carmichael numbers of order 2 below 10^28.**
+> **There are exactly 45 Carmichael numbers of order 2 below 10²⁸.**
+
+**In brief.** A Carmichael number is a composite number that passes Fermat's primality test for every base it shares no factor with: raising any number to the $n$-th power mod $n$ gives it back, as if $n$ were prime. Carmichael numbers of order 2 do the same in a richer arithmetic, the field of $p^2$ elements, at every prime $p$ of $n$. They are much rarer: the smallest has 15 digits, and below $10^{28}$ there are only 45.
 
 "Order 2" is Howe's definition, the one used by OEIS [A175531](https://oeis.org/A175531): an odd composite $n$ such that, for every prime $p \mid n$,
 $$n \equiv 1 \ \text{ or } \ n \equiv p \pmod{p^2-1}.$$
 
-**Status.** The computation is complete and every check passes (`docs/CN2_Certificate_1e28.md`). The result rests on two proofs, `docs/CN2_LastCalc_Coverage_Proof.md` and `docs/CN2_Tail_Coverage_Proof.md`. They have been checked by the authors and by an independent review, whose suggested further checks have all been carried out (certificate §5).
+**Status.** The computation is complete and every check passes ([certificate](docs/CN2_Certificate_1e28.md)). The result rests on two proofs, the [LASTCALC coverage proof](docs/CN2_LastCalc_Coverage_Proof.md) and the [tail coverage proof](docs/CN2_Tail_Coverage_Proof.md). They have been checked by the authors and by an independent review, whose suggested further checks have all been carried out (certificate §5).
 
 This repository extends the census below $10^{25}$ (14 terms) of [carmichael-order2-census](https://github.com/pudepiedj/carmichael-order2-census). That repository is the record behind the original OEIS submission. Its first 14 terms are identical to the first 14 here.
 
@@ -74,9 +76,9 @@ Every order-2 $n < 10^{28}$, with primes $p_1 < \dots < p_k$, falls into one of 
 
 | part | which $n$ | engine | why it misses nothing |
 |---|---|---|---|
-| capped | $p_{k-1} \le T$ | `cn2x/cn2xh.c`: depth-first search over a prime table cut at $T$, with `CN2X_LASTCALC=1` | `docs/CN2_LastCalc_Coverage_Proof.md` |
-| pair tail | $p_{k-1} > T$, $p_k \le q^*$ | `cn2x/cn2pair.c`: for each pair $T < p < q \le q^*$, $n$ lies in one residue class modulo $pq\cdot\mathrm{lcm}(p^2-1, q^2-1)$ | `docs/CN2_Tail_Coverage_Proof.md`, Lemma B |
-| $(q, a)$ tail | a prime above $q^*$ | `cn2x/cn2tail.c`: $n = q\,(q + a(q^2-1))$ or $q\,(1 + a(q^2-1))$ | `docs/CN2_Tail_Coverage_Proof.md`, Lemma A |
+| capped | $p_{k-1} \le T$ | `cn2xh.c`: depth-first search over the primes up to $T$, with LASTCALC | [LASTCALC proof](docs/CN2_LastCalc_Coverage_Proof.md) |
+| pair tail | $p_{k-1} > T$, $p_k \le q^*$ | `cn2pair.c`: one residue class per prime pair $T < p < q \le q^*$ | [tail proof](docs/CN2_Tail_Coverage_Proof.md), Lemma B |
+| $(q, a)$ tail | a prime above $q^*$ | `cn2tail.c`: $n = q(q + a(q^2-1))$ or $q(1 + a(q^2-1))$ | [tail proof](docs/CN2_Tail_Coverage_Proof.md), Lemma A |
 
 The capped search needs no assumption about where its LIST step switches in. With LASTCALC on, it is proved to find every $n$ whose primes other than the largest lie in its table. Earlier capped searches lacked this, so their results above the proved bound were conditional. Every candidate from every engine is factorised and checked against the definition (`cn2_order2_defs.py`).
 

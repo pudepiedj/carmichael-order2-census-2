@@ -44,7 +44,7 @@ Three facts, all proved and all checked on the knowns, cut the space:
 | Lem3 | with $q < r$ the two largest prime factors of $n$ and $P = n/(qr)$: $Pq \equiv r \pmod{r^2-1}$ forces $Pq > r^2$ | $q < r < P$, hence $k \ge 4$ |
 
 **Proof of Lem1.** Let $p \mid n$. Rigidity gives $n \equiv 1 \pmod{p^2-1}$, and $p^2 \equiv 1 \pmod{p^2-1}$ trivially. Multiplying the first congruence by $p$,
-$$p\,n \equiv p \pmod{p^2-1}, \qquad p\,n = p^2\cdot\frac{n}{p}=(p^2-1)\frac{n}{p}+\frac{n}{p} \equiv \frac{n}{p} \pmod{p^2-1},$$
+$$p\thinspace n \equiv p \pmod{p^2-1}, \qquad p\thinspace n = p^2\cdot\frac{n}{p}=(p^2-1)\frac{n}{p}+\frac{n}{p} \equiv \frac{n}{p} \pmod{p^2-1},$$
 so $n/p \equiv p\pmod{p^2-1}$. Since $n$ is squarefree, $n/p \neq p$ (else $n = p^2$), and $n/p > 0$, so the least admissible value is one full period higher: $n/p \ge p + (p^2-1) = p^2 + (p-1) > p^2$, i.e. $n > p^3$. With $n \le X$ this bounds every prime factor by $X^{1/3}$ — the fact that makes $10^{24}$ reachable at all (primes to $10^8$, not $10^{12}$). In fact the empirical evidence suggests that the largest prime divisor of at least a small CN2 is orders of magnitude smaller than this cube-root law implies, but the upper bound makes the calculation tractable. Verified on the six knowns before anything was built on it, and independently confirmed by the engine's exact agreement with ground truth at every bound to $10^{22}$: too small a prime table would have lost CN2s.
 
 Lem2 and Lem3 are equally short.
@@ -196,8 +196,8 @@ python cn2x_campaign.py verify --dir cn2x/runs/campaign_1e24
 
 For any prime $p \mid n$, Lem1's congruence (and its type-$p$ counterpart) fixes the cofactor $n/p$ modulo $p^2-1$:
 
-- type 1: $n/p \equiv p$, $n/p \ne p$, so $n = p\,\bigl(p + a(p^2-1)\bigr)$ and $n - 1 = (p^2-1)(ap+1)$;
-- type $p$: $n/p \equiv 1$, $n/p \ne 1$, so $n = p\,\bigl(1 + a(p^2-1)\bigr)$;
+- type 1: $n/p \equiv p$, $n/p \ne p$, so $n = p\thinspace \bigl(p + a(p^2-1)\bigr)$ and $n - 1 = (p^2-1)(ap+1)$;
+- type $p$: $n/p \equiv 1$, $n/p \ne 1$, so $n = p\thinspace \bigl(1 + a(p^2-1)\bigr)$;
 
 with $a \ge 1$ in both cases. So every order-2 number below $X$ that has *some* prime factor $p > R_0$ is one of the pairs $(p, a)$ with $R_0 < p \le X^{1/3}$ in one of two families, about $X/(R_0^2\ln R_0)$ pairs in all. The search splits into two phases whose union is complete, with no hypothesis:
 

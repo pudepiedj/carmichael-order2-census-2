@@ -12,11 +12,10 @@ date: 2026-10-05
 **Code proved about:** `cn2x/cn2xh.c` (functions `node_head`, `child_step`, `merge`, `last_calc`, `list_mode`, `dfs`, the shard generator `gen_node`/`next_shard`, `run_task`, `donate`), and the verifier `cn2_order2_defs.verify_candidate`.
 
 ---
-[TOC]
 
 ## 1. The statement
 
-**Theorem.** Let $X < 2^{126}$ and $T \ge 5$. Run `cn2xh` on $X$ with `CN2X_TCAP` $= T$, `CN2X_LASTCALC=1`, `CN2X_NMIN` unset, any mode (rigid, howe or cheb), any switch ratio $> 0$, and any sieve setting, until a session reports `complete: true`. Let $n < X$ be an order-2 number of that mode, with primes $p_1 < p_2 < \dots < p_k$. **If $p_{k-1} \le T$**, so that every prime of $n$ except possibly the largest lies in the table, then the run's `out.txt` contains a record that the verifier turns into $n$. The record is either `H n`, or `S m pmax j s` with $m = p_1\cdots p_j$ and $m\,s = n$.
+**Theorem.** Let $X < 2^{126}$ and $T \ge 5$. Run `cn2xh` on $X$ with `CN2X_TCAP` $= T$, `CN2X_LASTCALC=1`, `CN2X_NMIN` unset, any mode (rigid, howe or cheb), any switch ratio $> 0$, and any sieve setting, until a session reports `complete: true`. Let $n < X$ be an order-2 number of that mode, with primes $p_1 < p_2 < \dots < p_k$. **If $p_{k-1} \le T$**, so that every prime of $n$ except possibly the largest lies in the table, then the run's `out.txt` contains a record that the verifier turns into $n$. The record is either `H n`, or `S m pmax j s` with $m = p_1\cdots p_j$ and $m\thinspace s = n$.
 
 So, with the tail defined accordingly, one capped run plus one tail gives a certified census:
 $$\lbrace n < X \rbrace \;=\; \underbrace{\lbrace n : p_{k-1} \le T\rbrace}_{\text{capped run with LASTCALC}} \;\cup\; \underbrace{\lbrace n : p_{k-1} > T\rbrace}_{\text{numbers with at least two primes above } T}.$$
@@ -45,8 +44,8 @@ Throughout, $n < X$ is order-2 with primes $p_1 < \dots < p_k$.
 **F1 (no 2, no 3).** $n$ is odd and $3 \nmid n$.
 *Proof.* If $2 \mid n$, take an odd prime $q \mid n$ (one exists, since $n$ is squarefree and composite). Then $g(q)$ is even, because $q^2-1 \equiv 0 \pmod 8$ and $D \le 2$, and $n \equiv 1$ or $q \pmod{g(q)}$ is odd, a contradiction. If $3 \mid n$, take a prime $q \ge 5$ of $n$. Then $3 \mid g(q)$, so $n \equiv 1$ or $q \not\equiv 0 \pmod 3$, a contradiction. $\square$
 
-**F2 (cofactor bound).** For every $p \mid n$: $n/p > g(p)$, and in fact $D\,(n/p) > p^2$.
-*Proof.* Since $g(p) \mid p^2-1$, $p^{-1} \equiv p \pmod{g(p)}$, so $n/p \equiv r_p\, p \pmod{g(p)}$. That is, $n/p \equiv p$ if $r_p = 1$, and $n/p \equiv p^2 \equiv 1$ if $r_p = p$. Now $n/p \ne 1$ ($n$ is composite) and $n/p \ne p$ ($n$ is squarefree). Since $g(p) > p$ for $p \ge 5$, the least positive members of the two classes other than $1$ and $p$ are $1 + g(p)$ and $p + g(p)$. So $n/p \ge 1 + g(p)$, which gives $n/p > g(p)$. For $D = 1$ this reads $n/p \ge p^2$, and equality is impossible because $p \nmid n/p$ ($n$ is squarefree), so $n/p > p^2$. For $D = 2$ it reads $2(n/p) \ge p^2 + 1 > p^2$. Either way $D\,(n/p) > p^2$. $\square$
+**F2 (cofactor bound).** For every $p \mid n$: $n/p > g(p)$, and in fact $D\thinspace (n/p) > p^2$.
+*Proof.* Since $g(p) \mid p^2-1$, $p^{-1} \equiv p \pmod{g(p)}$, so $n/p \equiv r_p\thinspace  p \pmod{g(p)}$. That is, $n/p \equiv p$ if $r_p = 1$, and $n/p \equiv p^2 \equiv 1$ if $r_p = p$. Now $n/p \ne 1$ ($n$ is composite) and $n/p \ne p$ ($n$ is squarefree). Since $g(p) > p$ for $p \ge 5$, the least positive members of the two classes other than $1$ and $p$ are $1 + g(p)$ and $p + g(p)$. So $n/p \ge 1 + g(p)$, which gives $n/p > g(p)$. For $D = 1$ this reads $n/p \ge p^2$, and equality is impossible because $p \nmid n/p$ ($n$ is squarefree), so $n/p > p^2$. For $D = 2$ it reads $2(n/p) \ge p^2 + 1 > p^2$. Either way $D\thinspace (n/p) > p^2$. $\square$
 
 **F3 (at least three primes).** $k \ge 3$.
 *Proof.* If $n = p_1 p_2$, F2 at $p_2$ gives $p_2^2 < D p_1 \le 2 p_1 < p_2^2$. $\square$
@@ -56,7 +55,7 @@ Throughout, $n < X$ is order-2 with primes $p_1 < \dots < p_k$.
 2. if $t$ is second-to-last ($j = k-2$, so $j \ge 1$): $t \le b_{\text{second}} := \min\big(D m_j - 1,\ \lfloor\sqrt{\mathrm{rem}_j}\rfloor\big)$;
 3. if $t$ is earlier ($j \le k-3$): $t \le b_{\text{early}} := \lfloor \mathrm{rem}_j^{1/3}\rfloor$.
 
-*Proof.* (1) is F2 at $t$, with $n/t = m_j$. (2): $n/m_j = t\,p_k > t^2$ and $n/m_j \le \mathrm{rem}\_j$ (an integer at most $(X-1)/m_j$), so $t^2 < \mathrm{rem}_j$. And F2 at $p_k$ gives $t^2 < p_k^2 < D\,m_j t$, so $t < D m_j$. (3): $n/m_j \ge t\,p_{j+2}\,p_{j+3} > t^3$, so $t^3 < \mathrm{rem}_j$. $\square$
+*Proof.* (1) is F2 at $t$, with $n/t = m_j$. (2): $n/m_j = t\thinspace p_k > t^2$ and $n/m_j \le \mathrm{rem}\_j$ (an integer at most $(X-1)/m_j$), so $t^2 < \mathrm{rem}_j$. And F2 at $p_k$ gives $t^2 < p_k^2 < D\thinspace m_j t$, so $t < D m_j$. (3): $n/m_j \ge t\thinspace p_{j+2}\thinspace p_{j+3} > t^3$, so $t^3 < \mathrm{rem}_j$. $\square$
 
 Consequently every next prime satisfies $t \le \max(b_{\text{last}}, b_{\text{second}}, b_{\text{early}})$, the engine's `mx`. A next prime that is **not** the last satisfies $t \le e_b := \max(b_{\text{second}}, b_{\text{early}})$, the engine's `eb`. So $t > e_b$ implies that $t$ is the last prime.
 
@@ -75,8 +74,8 @@ The relevant code paths, with the line references in `cn2xh.c`, for a node $(m, 
 - **Head** (`node_head`): if $j \ge 3$ and $m \bmod L = c$, emit `H m`. Let $\mathrm{rem} = \lfloor (X-1)/m\rfloor$; if $\mathrm{rem} \le p_{\max}$, stop. Compute the three bounds of F4 (with $b_{\text{last}} = 0$ for $j < 2$ and $b_{\text{second}} = 0$ for $j < 1$), $t_{\max} = \min(\mathrm{mx}, T)$, and $\mathrm{nch}$ = the number of table primes in $(p_{\max}, t_{\max}]$. Set $\mathrm{lc}$ = (LASTCALC and $j \ge 2$ and $b_{\text{last}} > T$).
   - If $\mathrm{nch} = 0$: run `last_calc` if lc, then stop.
   - Otherwise decide LIST ($L > 1$ and $\lfloor \mathrm{rem}/L\rfloor + 1 \le \text{ratio}\cdot\mathrm{nch}$) or branch. If branching and lc, run `last_calc` first.
-- **LIST** (`list_mode`): for every $s \equiv c\,m^{-1} \pmod L$ with $p_{\max} < s \le \mathrm{rem}$: discard $s$ if even, if $3 \mid s$, or (sieve) if some prime $q \le p_{\max}$ from the small-prime list divides $s$. Otherwise emit `S m pmax j s` if $2^{ms-1} \equiv 1 \pmod s$.
-- **LASTCALC** (`last_calc`): for every $r \equiv c\,m^{-1} \pmod L$ with $\max(T, p_{\max}) < r \le \min(b_{\text{last}}, \mathrm{rem})$, provided $L > 1$: discard even $r$ and $3 \mid r$, and emit `S m pmax j r` if $2^{mr-1} \equiv 1 \pmod r$.
+- **LIST** (`list_mode`): for every $s \equiv c\thinspace m^{-1} \pmod L$ with $p_{\max} < s \le \mathrm{rem}$: discard $s$ if even, if $3 \mid s$, or (sieve) if some prime $q \le p_{\max}$ from the small-prime list divides $s$. Otherwise emit `S m pmax j s` if $2^{ms-1} \equiv 1 \pmod s$.
+- **LASTCALC** (`last_calc`): for every $r \equiv c\thinspace m^{-1} \pmod L$ with $\max(T, p_{\max}) < r \le \min(b_{\text{last}}, \mathrm{rem})$, provided $L > 1$: discard even $r$ and $3 \mid r$, and emit `S m pmax j r` if $2^{mr-1} \equiv 1 \pmod r$.
 - **Branch** (`dfs`, and identically the generator, batches and donation): for table primes $t$ in $(p_{\max}, t_{\max}]$ in increasing order, run `child_step`:
   - skip $t$ if $t \mid L$, or if $\gcd(g(t), m) \ne 1$;
   - if $m t > X$, stop the loop;

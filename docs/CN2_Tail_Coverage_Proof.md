@@ -12,7 +12,6 @@ date: 2026-10-05
 **Code proved about:** `cn2x/cn2pair.c` (`do_q`, `walk`, `single`, `sieve_ok`, `plan`, `worker`), `cn2x/cn2tail.c` (`scan`, `small_ok`, `amax_f`, `make_shards`, `worker`), and the verifiers `cn2_order2_defs.verify_candidate` and `cn2_split_campaign._verify_tail`.
 
 ---
-[TOC]
 
 ## 1. The statement
 
@@ -36,7 +35,7 @@ Nothing needs to be true of the other primes of $n$. The split is by the largest
 
 **Lemma A.** Let $q$ be a prime of an order-2 $n < X$, with $q > R_0$. Write $g = g(q)$ and $m = n/q$. Then:
 1. $q$ is among the engine's primes, which are all primes in $(R_0, \lfloor (D(X-1))^{1/3}\rfloor]$.
-2. $m = r_0 + a\,g$ for some $r_0 \in \lbrace q, 1\rbrace$ (only $r_0 = q$ in rigid mode) and some integer $a$ with $1 \le a \le A_{r_0}(q) := \lfloor ((X-1)/q - r_0)/g \rfloor$.
+2. $m = r_0 + a\thinspace g$ for some $r_0 \in \lbrace q, 1\rbrace$ (only $r_0 = q$ in rigid mode) and some integer $a$ with $1 \le a \le A_{r_0}(q) := \lfloor ((X-1)/q - r_0)/g \rfloor$.
 
 *Proof.*
 1. F7: $q^3 < D n \le D(X-1)$.
@@ -47,7 +46,7 @@ Nothing needs to be true of the other primes of $n$. The split is by the largest
 - **For some small prime $5 \le s \le 509$ with $s \mid m$** (why this list, and why the list is immaterial to the proof: see the Remark at the end of §4): $s^2 \mid m$, or $n \bmod g(s) \notin \lbrace 1, s\rbrace$. The engine computes $n \bmod g(s)$ as $(q \bmod g(s))(m \bmod g(s))$. By the definition, both tests reject only non-order-2 numbers. Primes $s$ that divide $g = g(q)$ are not tested: for them $m \equiv r_0 \not\equiv 0 \pmod s$, so $s \nmid m$ anyway.
 - **$2^{n-1} \not\equiv 1 \pmod m$.** This would contradict F6, since $m \mid n$.
 
-Otherwise it writes `P q a` ($r_0 = q$) or `Q q a` ($r_0 = 1$). The verifier rebuilds $m = r_0 + a\,g$ and $n = q m$, and checks $n$ against the definition. For our $n$, no test discards it, so its record is written. **Lemma A and these checks prove the case $q > Q$.**
+Otherwise it writes `P q a` ($r_0 = q$) or `Q q a` ($r_0 = 1$). The verifier rebuilds $m = r_0 + a\thinspace g$ and $n = q m$, and checks $n$ against the definition. For our $n$, no test discards it, so its record is written. **Lemma A and these checks prove the case $q > Q$.**
 
 The proved census below $10^{25}$ (the first repository (carmichael-order2-census, `results/howe_1e25`), $R_0 = 10^6$) used this engine and verifier. Its build (`038a9710…`) differs from the one frozen here (`aa96fb59…`) by a single added line: an input check that refuses $X \ge 2^{126}$ or primes above $2^{32}$. The search is otherwise identical.
 
@@ -56,7 +55,7 @@ The proved census below $10^{25}$ (the first repository (carmichael-order2-censu
 **Lemma B.** Let $n < X$ be order-2 with $p = p_{k-1}$ and $q = p_k$, where $T < p < q \le Q$. Let $r_p, r_q$ be its type residues ($n \equiv r_p \pmod{g(p)}$, $n \equiv r_q \pmod{g(q)}$). Then:
 1. $p \nmid g(q)$ and $q \nmid g(p)$, and $q \nmid g(q)$, $p \nmid g(p)$.
 2. The four congruences $n \equiv 0 \pmod q$, $n \equiv r_q \pmod{g(q)}$, $n \equiv r_p \pmod{g(p)}$ and $n \equiv 0 \pmod p$ are simultaneously solvable, and their solutions form one residue class modulo $M = pq\cdot\mathrm{lcm}(g(p), g(q))$. That class contains $n$.
-3. $q\,g(q) < n < X$.
+3. $q\thinspace g(q) < n < X$.
 
 *Proof.*
 1. F5, and $\gcd(x, x^2 - 1) = 1$.
@@ -65,12 +64,12 @@ The proved census below $10^{25}$ (the first repository (carmichael-order2-censu
 
 **What the engine does** (`do_q` for $q = $ `PR[iq]`, then every `PR[ip]` $= p < q$, for every allowed pair of type residues):
 - **Skip.** If $p \mid g(q)$, it skips the pair. By Lemma B.1 this never skips our pair.
-- **Class modulo $L_q = q\,g(q)$.** It forms the class of $\lbrace n \equiv 0 \ (q),\ n \equiv r_q \ (g(q))\rbrace$, using $\gcd(q, g(q)) = 1$. If $L_q \ge X - 1$ it returns. That cannot happen for our $n$, since $L_q < n < X$.
+- **Class modulo $L_q = q\thinspace g(q)$.** It forms the class of $\lbrace n \equiv 0 \ (q),\ n \equiv r_q \ (g(q))\rbrace$, using $\gcd(q, g(q)) = 1$. If $L_q \ge X - 1$ it returns. That cannot happen for our $n$, since $L_q < n < X$.
 - **Step A.** It merges in $n \equiv r_p \pmod{g(p)}$ by the CRT. Our types are compatible (Lemma B.2), so the merge succeeds, and the new class modulo $L_1 = \mathrm{lcm}(L_q, g(p))$ contains $n$.
-  - If $L_1 > X - 1$, the class has at most one member below $X$. The engine computes it without forming $L_1$, by testing $k \le (X - 1 - c)/L_q$ before forming $c + L_q k$. That member is $n$. `single` then checks $n > q\,g(q)$ and $p \mid n$, both true.
+  - If $L_1 > X - 1$, the class has at most one member below $X$. The engine computes it without forming $L_1$, by testing $k \le (X - 1 - c)/L_q$ before forming $c + L_q k$. That member is $n$. `single` then checks $n > q\thinspace g(q)$ and $p \mid n$, both true.
 - **Step B.** Otherwise it merges in $n \equiv 0 \pmod p$. Since $p \nmid L_1$, $L_1$ is invertible modulo $p$.
   - If $L_1 p > X - 1$, it handles the class as in Step A.
-  - Otherwise `walk` runs through every member of the class modulo $M = L_1 p$ in $(q\,g(q), X)$. That includes $n$.
+  - Otherwise `walk` runs through every member of the class modulo $M = L_1 p$ in $(q\thinspace g(q), X)$. That includes $n$.
 - **Filters** (`walk` and `single` alike). A candidate is discarded only if:
   - it is even, or divisible by 3 (F1);
   - for some $s \in \lbrace 5, \dots, 59\rbrace$ with $s \mid n$: $s^2 \mid n$, or $n \bmod g(s) \notin \lbrace 1, s\rbrace$ (the definition);
