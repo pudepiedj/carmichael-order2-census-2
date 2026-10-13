@@ -9,6 +9,8 @@ This repository contains the programs, the run records, the proofs and the valid
 "Order 2" is Howe's definition, the one used by OEIS [A175531](https://oeis.org/A175531): an odd composite $n$ such that, for every prime $p \mid n$,
 $$n \equiv 1 \ \text{ or } \ n \equiv p \pmod{p^2-1}.$$
 
+**Published.** The 45 terms are in OEIS [A175531](https://oeis.org/A175531) (b-file a(1)–a(45), October 2026). The entry links here as the certified census, and its comment records that every term below $10^{28}$ is rigid, so the smallest non-rigid term lies between $10^{28}$ and $4.63\times 10^{36}$.
+
 **Status.** The computation is complete and every check passes ([certificate](docs/CN2_Certificate_1e28.md)). The result rests on two proofs, the [LASTCALC coverage proof](docs/CN2_LastCalc_Coverage_Proof.md) and the [tail coverage proof](docs/CN2_Tail_Coverage_Proof.md). They have been checked by the authors and by an independent review, whose suggested further checks have all been carried out (certificate §5).
 
 This repository extends the census below $10^{25}$ (14 terms) of [carmichael-order2-census](https://github.com/pudepiedj/carmichael-order2-census). That repository is the record behind the original OEIS submission. Its first 14 terms are identical to the first 14 here.
